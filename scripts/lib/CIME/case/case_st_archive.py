@@ -701,6 +701,9 @@ def case_st_archive(self, last_date_str=None, archive_incomplete_logs=True, copy
     """
     Create archive object and perform short term archiving
     """
+    #Tianyi Hu#
+    resubmit=True
+    ###########
     logger.debug("resubmit {}".format(resubmit))
     caseroot = self.get_value("CASEROOT")
     self.load_env(job="case.st_archive")
@@ -734,7 +737,10 @@ def case_st_archive(self, last_date_str=None, archive_incomplete_logs=True, copy
     run_and_log_case_status(functor, "st_archive", caseroot=caseroot)
 
     logger.info("st_archive completed")
-
+    # ========Tianyi Hu========== #
+    logger.info('External workflow'+str(self.get_value("EXTERNAL_WORKFLOW")))
+    logger.info("resubmit_cnt {} resubmit {}".format(self.get_value("RESUBMIT"), resubmit))
+    #=============================#
     # resubmit case if appropriate
     if not self.get_value("EXTERNAL_WORKFLOW") and resubmit:
         resubmit_cnt = self.get_value("RESUBMIT")

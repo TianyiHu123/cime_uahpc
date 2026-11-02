@@ -204,6 +204,14 @@ def parse_command_line(args, description):
     for comp_interface in supported_comp_interfaces:
         files[comp_interface] = Files(comp_interface=comp_interface)
         components = files[comp_interface].get_components("COMPSETS_SPEC_FILE")
+        # Tianyi Hu #
+        #print('comp_interface')
+        #print( comp_interface )
+        #print('files')
+        #print(files[comp_interface])
+        #print(dir(files[comp_interface]))
+        #print(files[comp_interface].COMP_ROOT_DIR)
+        #############
         for item in components:
             valid_components.append(item)
 
@@ -370,8 +378,7 @@ def _main_func(description):
     main function
     """
     grids, compsets, components, machines, long_output, xml, files = parse_command_line(sys.argv, description)
-
-
+    
     if grids:
         query_grids(files, long_output, xml=xml)
 

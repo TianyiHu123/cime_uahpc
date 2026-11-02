@@ -22,15 +22,17 @@ class Compsets(GenericXML):
         science support is used in cesm to determine if this compset and grid
         is scientifically supported.   science_support is returned as an array of grids for this compset
         """
+
         nodes = self.get_children("compset")
         alias = None
         lname = None
 
         science_support = []
-
+        
         for node in nodes:
             alias = self.get_element_text("alias",root=node)
             lname = self.get_element_text("lname",root=node)
+
             if alias == name or lname == name:
                 science_support_nodes = self.get_children("science_support", root=node)
                 for snode in science_support_nodes:

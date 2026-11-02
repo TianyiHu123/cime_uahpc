@@ -51,9 +51,12 @@ endif
 
 # Check for the netcdf library and include directories
 ifdef NETCDF_PATH
-  LIB_NETCDF:=$(NETCDF_PATH)/lib
-  INC_NETCDF:=$(NETCDF_PATH)/include
-  MOD_NETCDF:=$(NETCDF_PATH)/include
+  #==========================================================
+  #revised by Yang Song: $NETCDF_PATH to $NETCDF_FORTRAN_PATH
+  LIB_NETCDF:=$(NETCDF_FORTRAN_PATH)/lib
+  INC_NETCDF:=$(NETCDF_FORTRAN_PATH)/include
+  MOD_NETCDF:=$(NETCDF_FORTRAN_PATH)/lib
+  #=========================================================
 else
   ifeq ($(LIB_NETCDF),$(null))
     LIB_NETCDF := /usr/local/lib

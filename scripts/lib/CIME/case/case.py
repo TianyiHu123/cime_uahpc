@@ -608,7 +608,7 @@ class Case(object):
                 model_set[comp_ind] = stub
             elif model_set[comp_ind][0] != 'S':
                 allstubs = False
-
+        
         expect((compset_alias is not None) or (not allstubs),
                'Invalid compset name, {}, all stub components generated'.format(compset_name))
         # Return the completed compset

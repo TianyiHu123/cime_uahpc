@@ -700,6 +700,8 @@ class EnvBatch(EnvBase):
                                             submit_resubmits=workflow and not resubmit_immediate)
         if batch_system == 'lsf' and not batch_env_flag:
             sequence = (run_args, batchsubmit, submitargs, batchredirect, get_batch_script_for_job(job))
+        elif batch_env_flag == 'UA-env': #add by Yang Song for adpating to UA-HPC
+            sequence = (batchsubmit, submitargs, batchredirect, get_batch_script_for_job(job))
         elif batch_env_flag:
             sequence = (batchsubmit, submitargs, run_args, batchredirect, get_batch_script_for_job(job))
         else:

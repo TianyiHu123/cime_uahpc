@@ -229,11 +229,13 @@ subroutine box_rearrange_comp2io_{TYPE} (IOsystem, ioDesc, s1, src, niodof, &
   nprocs = IOsystem%num_tasks
   num_iotasks = IOsystem%num_iotasks
 
-  if (s1 > 0 .and. s1<ndof) &
-    call piodie( __PIO_FILE__,__LINE__, &
-                 'box_rearrange_comp2io: size(compbuf)=', s1, &
-                 ' not equal to size(compdof)=', ndof)
+!Tianyi Hu added for debug
 
+  !if (s1 > 0 .and. s1<ndof) &
+    !call piodie( __PIO_FILE__,__LINE__, &
+                 !'box_rearrange_comp2io: size(compbuf)=', s1, &
+                 !' not equal to size(compdof)=', ndof)
+    !write(10086,*) 'piodie', s1, ndof, nrecvs, myrank, nprocs, num_iotasks
   if (IOsystem%IOproc) then
     rfrom => ioDesc%rfrom
     rtype => ioDesc%rtype

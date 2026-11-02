@@ -352,6 +352,507 @@ This allows using a different mpirun command to launch unit tests
     </resource_limits>
   </machine>
 
+  <machine MACH="UA-ocelote">
+    <DESC>
+      Example port to centos7 linux system with gcc, netcdf, pnetcdf and mpich
+      using modules from http://www.admin-magazine.com/HPC/Articles/Environment-Modules
+    </DESC>
+    <NODENAME_REGEX>r*u*n*|wentletrap</NODENAME_REGEX>
+    <OS>LINUX</OS>
+    <PROXY> https://howto.get.out </PROXY>
+    <COMPILERS>gnu,intel</COMPILERS>
+    <MPILIBS>openmpi,mpich,mpi-serial</MPILIBS>
+    <PROJECT>none</PROJECT>
+    <SAVE_TIMING_DIR> </SAVE_TIMING_DIR>
+    <CIME_OUTPUT_ROOT>/groups/chopinsong/CTSM_tianyi</CIME_OUTPUT_ROOT>
+    <DIN_LOC_ROOT>/xdisk/chopinsong/chopinsong/CTSM_inputdata</DIN_LOC_ROOT>
+    <DIN_LOC_ROOT_CLMFORC>/xdisk/chopinsong/chopinsong/CTSM_inputdata/clmforcing</DIN_LOC_ROOT_CLMFORC>
+    <DOUT_S_ROOT>${CIME_OUTPUT_ROOT}/archive/$CASE</DOUT_S_ROOT>
+    <BASELINE_ROOT>${CIME_OUTPUT_ROOT}/cesm_baselines</BASELINE_ROOT>
+    <CCSM_CPRNC>/home/u32/tianyihu/CTSM_SONG/cime/tools/cprnc</CCSM_CPRNC>
+    <GMAKE>make</GMAKE>
+    <GMAKE_J>8</GMAKE_J>
+    <BATCH_SYSTEM>slurm</BATCH_SYSTEM>
+    <SUPPORTED_BY>chopinsong@ariozna.edu</SUPPORTED_BY>
+    <MAX_TASKS_PER_NODE>28</MAX_TASKS_PER_NODE>
+    <MAX_MPITASKS_PER_NODE>28</MAX_MPITASKS_PER_NODE>
+    <PROJECT_REQUIRED>FALSE</PROJECT_REQUIRED>
+    <mpirun mpilib="mpich">
+      <executable>mpiexec</executable>
+      <arguments>
+        <arg name="ntasks"> -np {{ total_tasks }} </arg>
+      </arguments>
+    </mpirun>
+    <mpirun mpilib="openmpi">
+      <executable>/usr/bin/time -o mpit_prog.timing mpirun</executable>
+      <arguments>
+        <arg name="ntasks"> -np {{ total_tasks }}</arg>
+      </arguments>
+    </mpirun>
+    <module_system type="module" allow_error="true">
+      <init_path lang="perl">/opt/ohpc/admin/lmod/lmod/init/perl</init_path>
+      <init_path lang="python">/opt/ohpc/admin/lmod/lmod/init/env_modules_python.py</init_path>
+      <init_path lang="csh">/opt/ohpc/admin/lmod/lmod/init/csh</init_path>
+      <init_path lang="sh">/opt/ohpc/admin/lmod/lmod/init/sh</init_path>
+      <init_path lang="salloc">/usr/local/bin/salloc</init_path> 
+      <cmd_path lang="python">/opt/ohpc/admin/lmod/lmod/libexec/lmod python</cmd_path>
+      <cmd_path lang="perl">/opt/ohpc/admin/lmod/lmod/libexec/lmod perl</cmd_path>
+      <cmd_path lang="csh">module</cmd_path>
+      <cmd_path lang="sh">module</cmd_path>
+      <cmd_path lang="sbatch">module</cmd_path>
+      <modules compiler="intel">
+        <command name="load">/opt/ohpc/pub/modulefiles/intel/2020.4</command>
+        <command name="load">/opt/ohpc/pub/modulefiles/netcdf-intel/4.7.4</command>
+        <command name="load">/opt/ohpc/pub/modulefiles/netcdf-fortran/intel/4.5.3</command>
+        <command name="load">/opt/ohpc/pub/modulefiles/hdf5-intel/1.12.0</command>
+      </modules>
+    </module_system>
+    <environment_variables>
+      <env name="PNetCDF">/opt/ohpc/pub/libs/gnu8/openmpi3/pnetcdf/1.12.0</env>
+      <env name="PNETCDF">/opt/ohpc/pub/libs/gnu8/openmpi3/pnetcdf/1.12.0</env>
+      <env name="PNETCDF_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/pnetcdf/1.12.0</env>
+      <env name="PNETCDF_BASE">/opt/ohpc/pub/libs/gnu8/openmpi3/pnetcdf/1.12.0</env>
+      <env name="PNETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/gnu8/openmpi3/pnetcdf/1.12.0/lib</env>
+      <env name="PNETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/gnu8/openmpi3/pnetcdf/1.12.0/include</env>
+      <env name="OMP_STACKSIZE">256M</env>
+    </environment_variables>
+    <environment_variables compiler="gnu">
+     <env name="NETCDF">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf/4.7.1</env>
+     <env name="NetCDF">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf/4.7.1</env>
+     <env name="NETCDF_C_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf/4.7.1</env>
+     <env name="NetCDF_C_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf/4.7.1</env>
+     <env name="NETCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf-fortran/4.5.2</env>
+     <env name="NetCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf-fortran/4.5.2</env>
+     <env name="NETCDF_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf/4.7.1</env>
+     <env name="NetCDF_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf/4.7.1</env>
+     <env name="NETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf-fortran/4.5.2/lib</env>
+     <env name="NETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf-fortran/4.5.2/include</env>
+     <env name="HDF5_HOME">/opt/ohpc/pub/libs/gnu8/openmpi3/hdf5/1.10.5</env>
+     <env name="HDF5">/opt/ohpc/pub/libs/gnu8/openmpi3/hdf5/1.10.5</env>
+     <env name="ESMFBIN_PATH">/home/u22/chopinsong/software/esmf-8.3.0/INSTALL/bin/binO</env>
+     <env name="ESMFMKFLIE">/home/u22/chopinsong/software/esmf-8.3.0/INSTALL/lib/libO/Linux.gfortran.64.openmpi.default/esmf.mk</env>
+    </environment_variables>
+    <environment_variables compiler="intel">
+     <env name="NETCDF">/opt/ohpc/pub/apps/netcdf-intel/4.7.4</env>
+     <env name="NetCDF">/opt/ohpc/pub/apps/netcdf-intel/4.7.4</env>
+     <env name="NETCDF_C_PATH">/opt/ohpc/pub/apps/netcdf-intel/4.7.4</env>
+     <env name="NetCDF_C_PATH">/opt/ohpc/pub/apps/netcdf-intel/4.7.4</env>
+     <env name="NETCDF_FORTRAN_PATH">/opt/ohpc/pub/apps/netcdf-fortran/4.5.3</env>
+     <env name="NetCDF_FORTRAN_PATH">/opt/ohpc/pub/apps/netcdf-fortran/4.5.3</env>
+     <env name="NETCDF_PATH">/opt/ohpc/pub/apps/netcdf-intel/4.7.4</env>
+     <env name="NetCDF_PATH">/opt/ohpc/pub/apps/netcdf-intel/4.7.4</env>
+     <env name="NETCDF_Fortran_LIBRARY">/opt/ohpc/pub/apps/netcdf-fortran/4.5.3/lib</env>
+     <env name="NETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/apps/netcdf-fortran/4.5.3/lib</env>
+     <env name="HDF5_HOME">/opt/ohpc/pub/apps/hdf5-intel/1.12.0</env>
+     <env name="HDF5">/opt/ohpc/pub/apps/hdf5-intel/1.12.0</env>
+    </environment_variables>
+    <resource_limits>
+      <resource name="RLIMIT_STACK">-1</resource>
+    </resource_limits>
+  </machine>
+
+  <machine MACH="UA-puma">
+    <DESC>
+      Example port to centos7 linux system with gcc, netcdf, pnetcdf and mpich
+      using modules from http://www.admin-magazine.com/HPC/Articles/Environment-Modules
+    </DESC>
+    <NODENAME_REGEX>r*u*n*|wentletrap</NODENAME_REGEX>
+    <OS>LINUX</OS>
+    <PROXY> https://howto.get.out </PROXY>
+    <COMPILERS>gnu,intel</COMPILERS>
+    <MPILIBS>openmpi,mpich,mpi-serial</MPILIBS>
+    <PROJECT>none</PROJECT>
+    <SAVE_TIMING_DIR> </SAVE_TIMING_DIR>
+    <CIME_OUTPUT_ROOT>/groups/chopinsong/CTSM_tianyi</CIME_OUTPUT_ROOT>
+    <DIN_LOC_ROOT>/xdisk/chopinsong/chopinsong/CTSM_inputdata</DIN_LOC_ROOT>
+    <DIN_LOC_ROOT_CLMFORC>/xdisk/chopinsong/chopinsong/CTSM_inputdata/clmforcing</DIN_LOC_ROOT_CLMFORC>
+    <DOUT_S_ROOT>${CIME_OUTPUT_ROOT}/archive/$CASE</DOUT_S_ROOT>
+    <BASELINE_ROOT>${CIME_OUTPUT_ROOT}/cesm_baselines</BASELINE_ROOT>
+    <CCSM_CPRNC>/home/u32/tianyihu/CTSM_SONG/cime/tools/cprnc</CCSM_CPRNC>
+    <GMAKE>make</GMAKE>
+    <GMAKE_J>8</GMAKE_J>
+    <BATCH_SYSTEM>slurm</BATCH_SYSTEM>
+    <SUPPORTED_BY>chopinsong@ariozna.edu</SUPPORTED_BY>
+    <MAX_TASKS_PER_NODE>94</MAX_TASKS_PER_NODE>
+    <MAX_MPITASKS_PER_NODE>94</MAX_MPITASKS_PER_NODE>
+    <PROJECT_REQUIRED>FALSE</PROJECT_REQUIRED>
+    <mpirun mpilib="mpich">
+      <executable>mpiexec</executable>
+      <arguments>
+        <arg name="ntasks"> -np {{ total_tasks }} </arg>
+      </arguments>
+    </mpirun>
+    <mpirun mpilib="openmpi">
+      <executable>/usr/bin/time -o mpit_prog.timing mpirun</executable>
+      <arguments>
+        <arg name="ntasks"> -np {{ total_tasks }}</arg>
+      </arguments>
+    </mpirun>
+    <module_system type="module" allow_error="true">
+      <init_path lang="perl">/opt/ohpc/admin/lmod/lmod/init/perl</init_path>
+      <init_path lang="python">/opt/ohpc/admin/lmod/lmod/init/env_modules_python.py</init_path>
+      <init_path lang="csh">/opt/ohpc/admin/lmod/lmod/init/csh</init_path>
+      <init_path lang="sh">/opt/ohpc/admin/lmod/lmod/init/sh</init_path>
+      <init_path lang="salloc">/usr/local/bin/salloc</init_path> 
+      <cmd_path lang="python">/opt/ohpc/admin/lmod/lmod/libexec/lmod python</cmd_path>
+      <cmd_path lang="perl">/opt/ohpc/admin/lmod/lmod/libexec/lmod perl</cmd_path>
+      <cmd_path lang="csh">module</cmd_path>
+      <cmd_path lang="sh">module</cmd_path>
+      <cmd_path lang="sbatch">module</cmd_path>
+      <modules compiler="intel">
+        <command name="load">/opt/ohpc/pub/modulefiles/intel/2020.4</command>
+        <command name="load">/opt/ohpc/pub/modulefiles/netcdf-intel/4.7.4</command>
+        <command name="load">/opt/ohpc/pub/modulefiles/netcdf-fortran/intel/4.5.3</command>
+        <command name="load">/opt/ohpc/pub/modulefiles/hdf5-intel/1.12.0</command>
+      </modules>
+    </module_system>
+    <environment_variables>
+      <env name="PNetCDF">/opt/ohpc/pub/libs/gnu8/openmpi3/pnetcdf/1.12.0</env>
+      <env name="PNETCDF">/opt/ohpc/pub/libs/gnu8/openmpi3/pnetcdf/1.12.0</env>
+      <env name="PNETCDF_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/pnetcdf/1.12.0</env>
+      <env name="PNETCDF_BASE">/opt/ohpc/pub/libs/gnu8/openmpi3/pnetcdf/1.12.0</env>
+      <env name="PNETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/gnu8/openmpi3/pnetcdf/1.12.0/lib</env>
+      <env name="PNETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/gnu8/openmpi3/pnetcdf/1.12.0/include</env>
+      <env name="OMP_STACKSIZE">256M</env>
+    </environment_variables>
+    <environment_variables compiler="gnu">
+     <env name="NETCDF">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf/4.7.1</env>
+     <env name="NetCDF">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf/4.7.1</env>
+     <env name="NETCDF_C_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf/4.7.1</env>
+     <env name="NetCDF_C_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf/4.7.1</env>
+     <env name="NETCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf-fortran/4.5.2</env>
+     <env name="NetCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf-fortran/4.5.2</env>
+     <env name="NETCDF_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf/4.7.1</env>
+     <env name="NetCDF_PATH">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf/4.7.1</env>
+     <env name="NETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf-fortran/4.5.2/lib</env>
+     <env name="NETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/gnu8/openmpi3/netcdf-fortran/4.5.2/include</env>
+     <env name="HDF5_HOME">/opt/ohpc/pub/libs/gnu8/openmpi3/hdf5/1.10.5</env>
+     <env name="HDF5">/opt/ohpc/pub/libs/gnu8/openmpi3/hdf5/1.10.5</env>
+     <env name="ESMFBIN_PATH">/home/u22/chopinsong/software/esmf-8.3.0/INSTALL/bin/binO</env>
+     <env name="ESMFMKFLIE">/home/u22/chopinsong/software/esmf-8.3.0/INSTALL/lib/libO/Linux.gfortran.64.openmpi.default/esmf.mk</env>
+    </environment_variables>
+    <environment_variables compiler="intel">
+     <env name="NETCDF">/opt/ohpc/pub/apps/netcdf-intel/4.7.4</env>
+     <env name="NetCDF">/opt/ohpc/pub/apps/netcdf-intel/4.7.4</env>
+     <env name="NETCDF_C_PATH">/opt/ohpc/pub/apps/netcdf-intel/4.7.4</env>
+     <env name="NetCDF_C_PATH">/opt/ohpc/pub/apps/netcdf-intel/4.7.4</env>
+     <env name="NETCDF_FORTRAN_PATH">/opt/ohpc/pub/apps/netcdf-fortran/4.5.3</env>
+     <env name="NetCDF_FORTRAN_PATH">/opt/ohpc/pub/apps/netcdf-fortran/4.5.3</env>
+     <env name="NETCDF_PATH">/opt/ohpc/pub/apps/netcdf-intel/4.7.4</env>
+     <env name="NetCDF_PATH">/opt/ohpc/pub/apps/netcdf-intel/4.7.4</env>
+     <env name="NETCDF_Fortran_LIBRARY">/opt/ohpc/pub/apps/netcdf-fortran/4.5.3/lib</env>
+     <env name="NETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/apps/netcdf-fortran/4.5.3/lib</env>
+     <env name="HDF5_HOME">/opt/ohpc/pub/apps/hdf5-intel/1.12.0</env>
+     <env name="HDF5">/opt/ohpc/pub/apps/hdf5-intel/1.12.0</env>
+    </environment_variables>
+    <resource_limits>
+      <resource name="RLIMIT_STACK">-1</resource>
+    </resource_limits>
+  </machine>
+
+  <machine MACH="UA-puma9">
+    <DESC>
+      Example port to Rocky linux 9 linux system with gcc, netcdf, pnetcdf and mpich
+      using modules from http://www.admin-magazine.com/HPC/Articles/Environment-Modules
+    </DESC>
+    <NODENAME_REGEX>r*u*n*|wentletrap</NODENAME_REGEX>
+    <OS>LINUX</OS>
+    <PROXY> https://howto.get.out </PROXY>
+    <COMPILERS>gnu,intel</COMPILERS>
+    <MPILIBS>openmpi,mpich,mpi-serial</MPILIBS>
+    <PROJECT>none</PROJECT>
+    <SAVE_TIMING_DIR> </SAVE_TIMING_DIR>
+    <CIME_OUTPUT_ROOT>/xdisk/chopinsong/tianyihu/CTSM_tianyi</CIME_OUTPUT_ROOT>
+    <DIN_LOC_ROOT>/xdisk/chopinsong/chopinsong/CTSM_inputdata</DIN_LOC_ROOT>
+    <DIN_LOC_ROOT_CLMFORC>/xdisk/chopinsong/chopinsong/CTSM_inputdata/clmforcing</DIN_LOC_ROOT_CLMFORC>
+    <DOUT_S_ROOT>${CIME_OUTPUT_ROOT}/archive/$CASE</DOUT_S_ROOT>
+    <BASELINE_ROOT>${CIME_OUTPUT_ROOT}/cesm_baselines</BASELINE_ROOT>
+    <CCSM_CPRNC>/home/u32/tianyihu/CTSM_SONG/cime/tools/cprnc</CCSM_CPRNC>
+    <GMAKE>make</GMAKE>
+    <GMAKE_J>8</GMAKE_J>
+    <BATCH_SYSTEM>slurm</BATCH_SYSTEM>
+    <SUPPORTED_BY>chopinsong@ariozna.edu</SUPPORTED_BY>
+    <MAX_TASKS_PER_NODE>94</MAX_TASKS_PER_NODE>
+    <MAX_MPITASKS_PER_NODE>94</MAX_MPITASKS_PER_NODE>
+    <PROJECT_REQUIRED>FALSE</PROJECT_REQUIRED>
+    <mpirun mpilib="mpich">
+      <executable>mpiexec</executable>
+      <arguments>
+        <arg name="ntasks"> -np {{ total_tasks }} </arg>
+      </arguments>
+    </mpirun>
+    <mpirun mpilib="openmpi">
+      <executable>/usr/bin/time -o mpit_prog.timing mpirun</executable>
+      <arguments>
+        <arg name="ntasks"> -np {{ total_tasks }}</arg>
+      </arguments>
+    </mpirun>
+    <module_system type="module" allow_error="true">
+      <init_path lang="perl">/opt/ohpc/admin/lmod/lmod/init/perl</init_path>
+      <init_path lang="python">/opt/ohpc/admin/lmod/lmod/init/env_modules_python.py</init_path>
+      <init_path lang="csh">/opt/ohpc/admin/lmod/lmod/init/csh</init_path>
+      <init_path lang="sh">/opt/ohpc/admin/lmod/lmod/init/sh</init_path>
+      <init_path lang="salloc">/usr/local/bin/salloc</init_path> 
+      <cmd_path lang="python">/opt/ohpc/admin/lmod/lmod/libexec/lmod python</cmd_path>
+      <cmd_path lang="perl">/opt/ohpc/admin/lmod/lmod/libexec/lmod perl</cmd_path>
+      <cmd_path lang="csh">module</cmd_path>
+      <cmd_path lang="sh">module</cmd_path>
+      <cmd_path lang="sbatch">module</cmd_path>
+      <modules compiler="intel">
+        <command name="load">/opt/ohpc/pub/modulefiles/intel/2024.0.0</command>
+        <command name="load">/opt/ohpc/pub/moduledeps/intel-impi/netcdf/4.9.2</command>
+        <command name="load">/opt/ohpc/pub/moduledeps/intel-impi/netcdf-fortran/4.6.1</command>
+        <command name="load">/opt/ohpc/pub/moduledeps/intel/hdf5/1.14.0</command>
+      </modules>
+    </module_system>
+    <environment_variables>
+      <env name="PNetCDF">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3</env>
+      <env name="PNETCDF">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3</env>
+      <env name="PNETCDF_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3</env>
+      <env name="PNETCDF_BASE">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3</env>
+      <env name="PNETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3/lib</env>
+      <env name="PNETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3/include</env>
+      <env name="OMP_STACKSIZE">256M</env>
+    </environment_variables>
+    <environment_variables compiler="gnu">
+     <env name="NETCDF">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NetCDF">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NETCDF_C_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NetCDF_C_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NETCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf-fortran/4.6.1</env>
+     <env name="NetCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf-fortran/4.6.1</env>
+     <env name="NETCDF_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NetCDF_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf-fortran/4.6.1/lib</env>
+     <env name="NETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf-fortran/4.6.1/include</env>
+     <env name="HDF5_HOME">/opt/ohpc/pub/libs/gnu13/hdf5/1.14.0</env>
+     <env name="HDF5">/opt/ohpc/pub/libs/gnu13/hdf5/1.14.0</env>
+     <env name="ESMFBIN_PATH">/home/u32/tianyihu/app/esmf-8.3.0/install/bin/bing</env>
+     <env name="ESMFMKFLIE">/home/u32/tianyihu/app/esmf-8.3.0/install/lib/libg/Linux.gfortran.64.openmpi.default/esmf.mk</env>     
+     <!-- <env name="ESMFBIN_PATH">/home/u32/tianyihu/app/esmf-ESMF_8_1_0/install/bin/bing</env> -->
+     <!-- <env name="ESMFMKFLIE">/home/u32/tianyihu/app/esmf-ESMF_8_1_0/install/lib/libg/Linux.gfortran.64.openmpi.default/esmf.mk</env> -->
+    </environment_variables>
+    <environment_variables compiler="intel">
+     <env name="NETCDF">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NetCDF">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NETCDF_C_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NetCDF_C_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NETCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf-fortran/4.6.1</env>
+     <env name="NetCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf-fortran/4.6.1</env>
+     <env name="NETCDF_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NetCDF_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/intel/impi/netcdf-fortran/4.6.1/lib</env>
+     <env name="NETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/intel/impi/netcdf-fortran/4.6.1/lib</env>
+     <env name="HDF5_HOME">/opt/ohpc/pub/libs/intel/hdf5/1.14.0</env>
+     <env name="HDF5">/opt/ohpc/pub/libs/intel/hdf5/1.14.0</env>
+    </environment_variables>
+    <resource_limits>
+      <resource name="RLIMIT_STACK">-1</resource>
+    </resource_limits>
+  </machine>
+
+  <machine MACH="UA-puma9_test1">
+    <DESC>
+      Example port to Rocky linux 9 linux system with gcc, netcdf, pnetcdf and mpich
+      using modules from http://www.admin-magazine.com/HPC/Articles/Environment-Modules
+    </DESC>
+    <NODENAME_REGEX>r*u*n*|wentletrap</NODENAME_REGEX>
+    <OS>LINUX</OS>
+    <PROXY> https://howto.get.out </PROXY>
+    <COMPILERS>gnu,intel</COMPILERS>
+    <MPILIBS>openmpi,mpich,mpi-serial</MPILIBS>
+    <PROJECT>none</PROJECT>
+    <SAVE_TIMING_DIR> </SAVE_TIMING_DIR>
+    <CIME_OUTPUT_ROOT>/xdisk/chopinsong/tianyihu/CTSM_tianyi</CIME_OUTPUT_ROOT>
+    <DIN_LOC_ROOT>/xdisk/chopinsong/chopinsong/CTSM_inputdata</DIN_LOC_ROOT>
+    <DIN_LOC_ROOT_CLMFORC>/xdisk/chopinsong/chopinsong/CTSM_inputdata/clmforcing</DIN_LOC_ROOT_CLMFORC>
+    <DOUT_S_ROOT>${CIME_OUTPUT_ROOT}/archive/$CASE</DOUT_S_ROOT>
+    <BASELINE_ROOT>${CIME_OUTPUT_ROOT}/cesm_baselines</BASELINE_ROOT>
+    <CCSM_CPRNC>/home/u32/tianyihu/CTSM_SONG/cime/tools/cprnc</CCSM_CPRNC>
+    <GMAKE>make</GMAKE>
+    <GMAKE_J>8</GMAKE_J>
+    <BATCH_SYSTEM>slurm</BATCH_SYSTEM>
+    <SUPPORTED_BY>chopinsong@ariozna.edu</SUPPORTED_BY>
+    <MAX_TASKS_PER_NODE>94</MAX_TASKS_PER_NODE>
+    <MAX_MPITASKS_PER_NODE>94</MAX_MPITASKS_PER_NODE>
+    <PROJECT_REQUIRED>FALSE</PROJECT_REQUIRED>
+    <mpirun mpilib="mpich">
+      <executable>mpiexec</executable>
+      <arguments>
+        <arg name="ntasks"> -np {{ total_tasks }} </arg>
+      </arguments>
+    </mpirun>
+    <mpirun mpilib="openmpi">
+      <executable>/usr/bin/time -o mpit_prog.timing mpirun</executable>
+      <arguments>
+        <arg name="ntasks"> -np {{ total_tasks }}</arg>
+      </arguments>
+    </mpirun>
+    <module_system type="module" allow_error="true">
+      <init_path lang="perl">/opt/ohpc/admin/lmod/lmod/init/perl</init_path>
+      <init_path lang="python">/opt/ohpc/admin/lmod/lmod/init/env_modules_python.py</init_path>
+      <init_path lang="csh">/opt/ohpc/admin/lmod/lmod/init/csh</init_path>
+      <init_path lang="sh">/opt/ohpc/admin/lmod/lmod/init/sh</init_path>
+      <init_path lang="salloc">/usr/local/bin/salloc</init_path> 
+      <cmd_path lang="python">/opt/ohpc/admin/lmod/lmod/libexec/lmod python</cmd_path>
+      <cmd_path lang="perl">/opt/ohpc/admin/lmod/lmod/libexec/lmod perl</cmd_path>
+      <cmd_path lang="csh">module</cmd_path>
+      <cmd_path lang="sh">module</cmd_path>
+      <cmd_path lang="sbatch">module</cmd_path>
+      <modules compiler="intel">
+        <command name="load">/opt/ohpc/pub/modulefiles/intel/2024.0.0</command>
+        <command name="load">/opt/ohpc/pub/moduledeps/intel-impi/netcdf/4.9.2</command>
+        <command name="load">/opt/ohpc/pub/moduledeps/intel-impi/netcdf-fortran/4.6.1</command>
+        <command name="load">/opt/ohpc/pub/moduledeps/intel/hdf5/1.14.0</command>
+      </modules>
+    </module_system>
+    <environment_variables>
+      <env name="PNetCDF">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3</env>
+      <env name="PNETCDF">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3</env>
+      <env name="PNETCDF_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3</env>
+      <env name="PNETCDF_BASE">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3</env>
+      <env name="PNETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3/lib</env>
+      <env name="PNETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3/include</env>
+      <env name="OMP_STACKSIZE">256M</env>
+    </environment_variables>
+    <environment_variables compiler="gnu">
+     <env name="NETCDF">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NetCDF">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NETCDF_C_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NetCDF_C_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NETCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf-fortran/4.6.1</env>
+     <env name="NetCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf-fortran/4.6.1</env>
+     <env name="NETCDF_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NetCDF_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf-fortran/4.6.1/lib</env>
+     <env name="NETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf-fortran/4.6.1/include</env>
+     <env name="HDF5_HOME">/opt/ohpc/pub/libs/gnu13/hdf5/1.14.0</env>
+     <env name="HDF5">/opt/ohpc/pub/libs/gnu13/hdf5/1.14.0</env>
+     <env name="ESMFBIN_PATH">/home/u32/tianyihu/app/esmf-8.3.0/install/bin/bing</env>
+     <env name="ESMFMKFLIE">/home/u32/tianyihu/app/esmf-8.3.0/install/lib/libg/Linux.gfortran.64.openmpi.default/esmf.mk</env>     
+     <!-- <env name="ESMFBIN_PATH">/home/u32/tianyihu/app/esmf-ESMF_8_1_0/install/bin/bing</env> -->
+     <!-- <env name="ESMFMKFLIE">/home/u32/tianyihu/app/esmf-ESMF_8_1_0/install/lib/libg/Linux.gfortran.64.openmpi.default/esmf.mk</env> -->
+    </environment_variables>
+    <environment_variables compiler="intel">
+     <env name="NETCDF">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NetCDF">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NETCDF_C_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NetCDF_C_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NETCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf-fortran/4.6.1</env>
+     <env name="NetCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf-fortran/4.6.1</env>
+     <env name="NETCDF_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NetCDF_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/intel/impi/netcdf-fortran/4.6.1/lib</env>
+     <env name="NETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/intel/impi/netcdf-fortran/4.6.1/lib</env>
+     <env name="HDF5_HOME">/opt/ohpc/pub/libs/intel/hdf5/1.14.0</env>
+     <env name="HDF5">/opt/ohpc/pub/libs/intel/hdf5/1.14.0</env>
+    </environment_variables>
+    <resource_limits>
+      <resource name="RLIMIT_STACK">-1</resource>
+    </resource_limits>
+  </machine>
+
+  <machine MACH="UA-puma9_test2">
+    <DESC>
+      Example port to Rocky linux 9 linux system with gcc, netcdf, pnetcdf and mpich
+      using modules from http://www.admin-magazine.com/HPC/Articles/Environment-Modules
+    </DESC>
+    <NODENAME_REGEX>r*u*n*|wentletrap</NODENAME_REGEX>
+    <OS>LINUX</OS>
+    <PROXY> https://howto.get.out </PROXY>
+    <COMPILERS>gnu,intel</COMPILERS>
+    <MPILIBS>openmpi,mpich,mpi-serial</MPILIBS>
+    <PROJECT>none</PROJECT>
+    <SAVE_TIMING_DIR> </SAVE_TIMING_DIR>
+    <CIME_OUTPUT_ROOT>/xdisk/chopinsong/tianyihu/CTSM_tianyi</CIME_OUTPUT_ROOT>
+    <DIN_LOC_ROOT>/xdisk/chopinsong/chopinsong/CTSM_inputdata</DIN_LOC_ROOT>
+    <DIN_LOC_ROOT_CLMFORC>/xdisk/chopinsong/chopinsong/CTSM_inputdata/clmforcing</DIN_LOC_ROOT_CLMFORC>
+    <DOUT_S_ROOT>${CIME_OUTPUT_ROOT}/archive/$CASE</DOUT_S_ROOT>
+    <BASELINE_ROOT>${CIME_OUTPUT_ROOT}/cesm_baselines</BASELINE_ROOT>
+    <CCSM_CPRNC>/home/u32/tianyihu/CTSM_SONG/cime/tools/cprnc</CCSM_CPRNC>
+    <GMAKE>make</GMAKE>
+    <GMAKE_J>8</GMAKE_J>
+    <BATCH_SYSTEM>slurm</BATCH_SYSTEM>
+    <SUPPORTED_BY>chopinsong@ariozna.edu</SUPPORTED_BY>
+    <MAX_TASKS_PER_NODE>94</MAX_TASKS_PER_NODE>
+    <MAX_MPITASKS_PER_NODE>94</MAX_MPITASKS_PER_NODE>
+    <PROJECT_REQUIRED>FALSE</PROJECT_REQUIRED>
+    <mpirun mpilib="mpich">
+      <executable>mpiexec</executable>
+      <arguments>
+        <arg name="ntasks"> -np {{ total_tasks }} </arg>
+      </arguments>
+    </mpirun>
+    <mpirun mpilib="openmpi">
+      <executable>/usr/bin/time -o mpit_prog.timing mpirun</executable>
+      <arguments>
+        <arg name="ntasks"> -np {{ total_tasks }}</arg>
+      </arguments>
+    </mpirun>
+    <module_system type="module" allow_error="true">
+      <init_path lang="perl">/opt/ohpc/admin/lmod/lmod/init/perl</init_path>
+      <init_path lang="python">/opt/ohpc/admin/lmod/lmod/init/env_modules_python.py</init_path>
+      <init_path lang="csh">/opt/ohpc/admin/lmod/lmod/init/csh</init_path>
+      <init_path lang="sh">/opt/ohpc/admin/lmod/lmod/init/sh</init_path>
+      <init_path lang="salloc">/usr/local/bin/salloc</init_path> 
+      <cmd_path lang="python">/opt/ohpc/admin/lmod/lmod/libexec/lmod python</cmd_path>
+      <cmd_path lang="perl">/opt/ohpc/admin/lmod/lmod/libexec/lmod perl</cmd_path>
+      <cmd_path lang="csh">module</cmd_path>
+      <cmd_path lang="sh">module</cmd_path>
+      <cmd_path lang="sbatch">module</cmd_path>
+      <modules compiler="intel">
+        <command name="load">/opt/ohpc/pub/modulefiles/intel/2024.0.0</command>
+        <command name="load">/opt/ohpc/pub/moduledeps/intel-impi/netcdf/4.9.2</command>
+        <command name="load">/opt/ohpc/pub/moduledeps/intel-impi/netcdf-fortran/4.6.1</command>
+        <command name="load">/opt/ohpc/pub/moduledeps/intel/hdf5/1.14.0</command>
+      </modules>
+    </module_system>
+    <environment_variables>
+      <env name="PNetCDF">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3</env>
+      <env name="PNETCDF">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3</env>
+      <env name="PNETCDF_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3</env>
+      <env name="PNETCDF_BASE">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3</env>
+      <env name="PNETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3/lib</env>
+      <env name="PNETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/gnu13/openmpi5/pnetcdf/1.12.3/include</env>
+      <env name="OMP_STACKSIZE">256M</env>
+    </environment_variables>
+    <environment_variables compiler="gnu">
+     <env name="NETCDF">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NetCDF">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NETCDF_C_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NetCDF_C_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NETCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf-fortran/4.6.1</env>
+     <env name="NetCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf-fortran/4.6.1</env>
+     <env name="NETCDF_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NetCDF_PATH">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf/4.9.2</env>
+     <env name="NETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf-fortran/4.6.1/lib</env>
+     <env name="NETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/gnu13/openmpi5/netcdf-fortran/4.6.1/include</env>
+     <env name="HDF5_HOME">/opt/ohpc/pub/libs/gnu13/hdf5/1.14.0</env>
+     <env name="HDF5">/opt/ohpc/pub/libs/gnu13/hdf5/1.14.0</env>
+     <env name="ESMFBIN_PATH">/home/u32/tianyihu/app/esmf-8.3.0/install/bin/bing</env>
+     <env name="ESMFMKFLIE">/home/u32/tianyihu/app/esmf-8.3.0/install/lib/libg/Linux.gfortran.64.openmpi.default/esmf.mk</env>     
+     <!-- <env name="ESMFBIN_PATH">/home/u32/tianyihu/app/esmf-ESMF_8_1_0/install/bin/bing</env> -->
+     <!-- <env name="ESMFMKFLIE">/home/u32/tianyihu/app/esmf-ESMF_8_1_0/install/lib/libg/Linux.gfortran.64.openmpi.default/esmf.mk</env> -->
+    </environment_variables>
+    <environment_variables compiler="intel">
+     <env name="NETCDF">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NetCDF">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NETCDF_C_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NetCDF_C_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NETCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf-fortran/4.6.1</env>
+     <env name="NetCDF_FORTRAN_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf-fortran/4.6.1</env>
+     <env name="NETCDF_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NetCDF_PATH">/opt/ohpc/pub/libs/intel/impi/netcdf/4.9.2</env>
+     <env name="NETCDF_Fortran_LIBRARY">/opt/ohpc/pub/libs/intel/impi/netcdf-fortran/4.6.1/lib</env>
+     <env name="NETCDF_Fortran_INCLUDE_DIR">/opt/ohpc/pub/libs/intel/impi/netcdf-fortran/4.6.1/lib</env>
+     <env name="HDF5_HOME">/opt/ohpc/pub/libs/intel/hdf5/1.14.0</env>
+     <env name="HDF5">/opt/ohpc/pub/libs/intel/hdf5/1.14.0</env>
+    </environment_variables>
+    <resource_limits>
+      <resource name="RLIMIT_STACK">-1</resource>
+    </resource_limits>
+  </machine>
+
    <machine MACH="casper">
     <DESC>NCAR GPU platform, os is Linux, 36 pes/node, batch system is slurm</DESC>
     <NODENAME_REGEX>casper*</NODENAME_REGEX>

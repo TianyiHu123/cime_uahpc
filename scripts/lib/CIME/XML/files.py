@@ -20,6 +20,9 @@ class Files(EntryID):
         '$CIMEROOT/config/config_headers.xml'
         """
         cimeroot = get_cime_root()
+        #Tianyi Hu
+        print(cimeroot)
+        #
         infile = os.path.join(cimeroot, "config", get_model(), "config_files.xml")
         expect(os.path.isfile(infile), "Could not find or open file {}".format(infile))
         schema = os.path.join(cimeroot, "config", "xml_schemas", "entry_id.xsd")
@@ -34,6 +37,9 @@ class Files(EntryID):
         if os.path.isfile(config_files_override):
             self.read(config_files_override)
             self.overwrite_existing_entries()
+
+        print(infile)
+        print(config_files_override)
 
     def get_value(self, vid, attribute=None, resolved=True, subgroup=None):
         if vid == "COMP_ROOT_DIR_CPL":
@@ -55,10 +61,15 @@ class Files(EntryID):
         if attribute:
             newatt.update(attribute)
         value = super(Files, self).get_value(vid, attribute=newatt, resolved=False, subgroup=subgroup)
+
+        #Tianyi Hu
+        #print(value)       
         if value is None and attribute is not None:
             value = super(Files, self).get_value(vid, attribute=attribute, resolved=False, subgroup=subgroup)
+        #print(value)
         if value is None:
             value = super(Files, self).get_value(vid, attribute=None, resolved=False, subgroup=subgroup)
+        #print(value)
 
         if "COMP_ROOT_DIR" not in vid and value is not None and "COMP_ROOT_DIR" in value:
             m = re.search("(COMP_ROOT_DIR_[^/]+)/", value)

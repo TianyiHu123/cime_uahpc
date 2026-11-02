@@ -837,29 +837,30 @@ SUBROUTINE sys_getenv(name, val, rcode)
 !-------------------------------------------------------------------------------
 ! PURPOSE: an architecture independant system call
 !-------------------------------------------------------------------------------
-
    lenname=len_trim(name)
+!=====temporarly revised by Yang Song for UA-ocelote============================
+!#if (defined IRIX64 || defined CRAY || defined UNICOSMP)
 
-#if (defined IRIX64 || defined CRAY || defined UNICOSMP)
+!   call pxfgetenv(name, lenname, val, lenval, rcode)
 
-   call pxfgetenv(name, lenname, val, lenval, rcode)
-
-#elif (defined AIX || defined OSF1 || defined SUNOS || defined LINUX || defined NEC_SX || defined CPRINTEL)
-#ifdef F2003
+!#elif (defined AIX || defined OSF1 || defined SUNOS || defined LINUX || defined NEC_SX || defined CPRINTEL)
+!#ifdef F2003
     call GET_ENVIRONMENT_VARIABLE(trim(name),value=val, length=lenval, status=rcode)
-#else
-   call getenv(trim(name),tmpval)
-   val=trim(tmpval)
-   rcode = 0
-   if (len_trim(val) ==  0         ) rcode = 1
-   if (len_trim(val) >  CL) rcode = 2
-#endif
-#else
+    write(*,F00) "test_genenv1"
+!#else
+!   call getenv(trim(name),tmpval)
+!   val=trim(tmpval)
+!   rcode = 0
+!   if (len_trim(val) ==  0         ) rcode = 1
+!   if (len_trim(val) >  CL) rcode = 2
+!   write(*,F00) "test_genenv2"
+!#endif
+!#else
+!   write(*,F00) "test_genenv3"
+!   write(*,F00) 'ERROR: no implementation of getenv for this architecture'
+!   stop subname//'no implementation of getenv for this machine'
 
-   write(*,F00) 'ERROR: no implementation of getenv for this architecture'
-   stop subname//'no implementation of getenv for this machine'
-
-#endif
+!#endif
 
 END SUBROUTINE sys_getenv
 

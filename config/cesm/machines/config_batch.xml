@@ -165,8 +165,137 @@
       <directive> --nodes={{ num_nodes }}</directive>
       <directive> --ntasks-per-node={{ tasks_per_node }}</directive>
       <directive> --output={{ job_id }}   </directive>
-      <directive> --exclusive                        </directive>
     </directives>
+  </batch_system>
+
+  <batch_system MACH="UA-ocelote" type="slurm" >
+    <batch_submit>/usr/local/bin/sbatch </batch_submit>
+    <batch_env>UA-env</batch_env>
+    <walltime_format>%HH:%MM:%SS</walltime_format>
+    <submit_args>
+      <arg flag="--account=chopinsong"/>
+      <arg flag="--partition" name="$JOB_QUEUE"/>
+      <arg flag="--time=" name="$JOB_WALLCLOCK_TIME"/>
+      <arg flag="--job-name" name="$job_id"/>
+      <arg flag="-o %x.out"/>
+    </submit_args>
+    <directives>
+      <directive>--account=chopinsong</directive>
+      <directive>--nodes={{ num_nodes }}</directive>
+      <directive>--ntasks-per-node={{ tasks_per_node }}</directive>
+      <directive>--mem-per-cpu=5gb</directive>
+    </directives>
+    <queues>
+      <queue walltimemax="04:00:00" strict="true" nodemin="1"  nodemax="400">windfall</queue>
+      <queue walltimemax="04:00:00" strict="true" nodemin="1"  nodemax="348" default="true">standard</queue>
+      <queue walltimemax="00:10:00" strict="true" nodemin="1"  nodemax="2">debug</queue>
+      <queue walltimemax="12:00:00" strict="true" nodemin="1"  nodemax="52">high_priority</queue>
+      <queue walltimemax="12:00:00" strict="true" nodemin="1"  nodemax="348">qualified</queue>
+    </queues>
+  </batch_system>
+
+  <batch_system MACH="UA-puma" type="slurm" >
+    <batch_submit>/usr/local/bin/sbatch </batch_submit>
+    <batch_env>UA-env</batch_env>
+    <walltime_format>%H:%M:%S</walltime_format>
+    <submit_args>
+      <arg flag="--account=chopinsong"/>
+      <arg flag="--partition" name="$JOB_QUEUE"/>
+      <arg flag="--time=" name="$JOB_WALLCLOCK_TIME"/>
+      <arg flag="--job-name" name="$job_id"/>
+      <arg flag="-o %x.out"/>
+    </submit_args>
+    <directives>
+      <directive>--account=chopinsong</directive>
+      <directive>--nodes={{ num_nodes }}</directive>
+      <directive>--ntasks-per-node={{ tasks_per_node }}</directive>
+      <directive>--mem-per-cpu=5gb</directive>
+    </directives>
+    <queues>
+      <queue walltimemax="04:00:00" strict="true" nodemin="1"  nodemax="400">windfall</queue>
+      <queue walltimemax="04:00:00" strict="true" nodemin="1"  nodemax="348" default="true">standard</queue>
+      <queue walltimemax="00:10:00" strict="true" nodemin="1"  nodemax="2">debug</queue>
+      <queue walltimemax="12:00:00" strict="true" nodemin="1"  nodemax="52">high_priority</queue>
+      <queue walltimemax="12:00:00" strict="true" nodemin="1"  nodemax="348">qualified</queue>
+    </queues>
+  </batch_system>
+
+  <batch_system MACH="UA-puma9" type="slurm" >
+    <batch_submit>/usr/bin/sbatch </batch_submit>
+    <batch_env>UA-env</batch_env>
+    <walltime_format>%H:%M:%S</walltime_format>
+    <submit_args>
+      <arg flag="--account=chopinsong"/>
+      <arg flag="--partition" name="$JOB_QUEUE"/>
+      <arg flag="--time=" name="$JOB_WALLCLOCK_TIME"/>
+      <arg flag="--job-name" name="$job_id"/>
+      <arg flag="-o %x.out"/>
+    </submit_args>
+    <directives>
+      <directive>--account=chopinsong</directive>
+      <directive>--nodes={{ num_nodes }}</directive>
+      <directive>--ntasks-per-node={{ tasks_per_node }}</directive>
+      <directive>--mem-per-cpu=5gb</directive>
+    </directives>
+    <queues>
+      <queue walltimemax="04:00:00" strict="true" nodemin="1"  nodemax="400">windfall</queue>
+      <queue walltimemax="04:00:00" strict="true" nodemin="1"  nodemax="348" default="true">standard</queue>
+      <queue walltimemax="00:10:00" strict="true" nodemin="1"  nodemax="2">debug</queue>
+      <queue walltimemax="12:00:00" strict="true" nodemin="1"  nodemax="52">high_priority</queue>
+      <queue walltimemax="12:00:00" strict="true" nodemin="1"  nodemax="348">qualified</queue>
+    </queues>
+  </batch_system>
+
+  <batch_system MACH="UA-puma9_test1" type="slurm" >
+    <batch_submit>/usr/bin/sbatch </batch_submit>
+    <batch_env>UA-env</batch_env>
+    <walltime_format>%H:%M:%S</walltime_format>
+    <submit_args>
+      <arg flag="--account=chopinsong"/>
+      <arg flag="--partition" name="$JOB_QUEUE"/>
+      <arg flag="--time=" name="$JOB_WALLCLOCK_TIME"/>
+      <arg flag="--job-name" name="$job_id"/>
+      <arg flag="-o %x.out"/>
+    </submit_args>
+    <directives>
+      <directive>--account=chopinsong</directive>
+      <directive>--nodes={{ num_nodes }}</directive>
+      <directive>--ntasks-per-node={{ tasks_per_node }}</directive>
+      <directive>--mem-per-cpu=5gb</directive>
+    </directives>
+    <queues>
+      <queue walltimemax="04:00:00" strict="true" nodemin="1"  nodemax="400">windfall</queue>
+      <queue walltimemax="04:00:00" strict="true" nodemin="1"  nodemax="348" default="true">standard</queue>
+      <queue walltimemax="00:10:00" strict="true" nodemin="1"  nodemax="2">debug</queue>
+      <queue walltimemax="12:00:00" strict="true" nodemin="1"  nodemax="52">high_priority</queue>
+      <queue walltimemax="12:00:00" strict="true" nodemin="1"  nodemax="348">qualified</queue>
+    </queues>
+  </batch_system>
+
+  <batch_system MACH="UA-puma9_test2" type="slurm" >
+    <batch_submit>/usr/bin/sbatch </batch_submit>
+    <batch_env>UA-env</batch_env>
+    <walltime_format>%H:%M:%S</walltime_format>
+    <submit_args>
+      <arg flag="--account=chopinsong"/>
+      <arg flag="--partition" name="$JOB_QUEUE"/>
+      <arg flag="--time=" name="$JOB_WALLCLOCK_TIME"/>
+      <arg flag="--job-name" name="$job_id"/>
+      <arg flag="-o %x.out"/>
+    </submit_args>
+    <directives>
+      <directive>--account=chopinsong</directive>
+      <directive>--nodes={{ num_nodes }}</directive>
+      <directive>--ntasks-per-node={{ tasks_per_node }}</directive>
+      <directive>--mem-per-cpu=5gb</directive>
+    </directives>
+    <queues>
+      <queue walltimemax="04:00:00" strict="true" nodemin="1"  nodemax="400">windfall</queue>
+      <queue walltimemax="04:00:00" strict="true" nodemin="1"  nodemax="348" default="true">standard</queue>
+      <queue walltimemax="00:10:00" strict="true" nodemin="1"  nodemax="2">debug</queue>
+      <queue walltimemax="12:00:00" strict="true" nodemin="1"  nodemax="52">high_priority</queue>
+      <queue walltimemax="12:00:00" strict="true" nodemin="1"  nodemax="348">qualified</queue>
+    </queues>
   </batch_system>
 
   <batch_system MACH="aleph" type="pbs" >

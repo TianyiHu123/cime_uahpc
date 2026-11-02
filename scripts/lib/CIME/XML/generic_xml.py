@@ -293,6 +293,7 @@ class GenericXML(object):
 
     def get_optional_child(self, name=None, attributes=None, root=None, err_msg=None):
         children = self.get_children(root=root, name=name, attributes=attributes)
+
         if len(children) > 1:
             # see if we can reduce to 1 based on attribute counts
             if not attributes:
@@ -306,6 +307,7 @@ class GenericXML(object):
 
     def get_element_text(self, element_name, attributes=None, root=None):
         element_node = self.get_optional_child(name=element_name, attributes=attributes, root=root)
+
         if element_node is not None:
             return self.text(element_node)
         return None
